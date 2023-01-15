@@ -1,0 +1,27 @@
+{
+  "name": "flappy-bird",
+  "main": "index.js",
+  "version": "1.1.0",
+  "scripts": {
+    "dev": "vite --config vite.dev.config.ts",
+    "build": "tsc && vite --config vite.build.config.ts build"
+  },
+  "devDependencies": {
+    "@types/node": "^20.5.9",
+    "@typescript-eslint/eslint-plugin": "^5.59.9",
+    "@typescript-eslint/parser": "^5.59.9",
+    "eslint": "^8.42.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-unused-imports": "^2.0.0",
+    "typescript": "^5.0.2",
+    "vite": "^4.3.9",
+    "vite-plugin-mkcert": "^1.15.0",
+    "vite-tsconfig-paths": "^4.2.0"
+  },
+  "dependencies": {
+    "phaser": "^3.60.0",
+    "random": "^4.1.0",
+    "sass": "^1.66.1"
+  }
+}
