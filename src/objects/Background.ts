@@ -37,11 +37,11 @@ export class Background extends Phaser.GameObjects.Group {
 
   public startMoving(): void {
     this.mover = this.scene.time.addEvent({
-      delay: 10,
+      delay: 5,
       startAt: 0,
       callback: () => {
-        this.background.tilePositionX += 1;
-        this.ground.tilePositionX += 1.5;
+        this.background.tilePositionX += 1 / 2;
+        this.ground.tilePositionX += 1.5 / 2;
       },
       loop: true
     });
