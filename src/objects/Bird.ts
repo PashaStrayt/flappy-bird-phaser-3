@@ -104,7 +104,7 @@ export class Bird extends Phaser.Physics.Arcade.Sprite {
     this.isStunned = true;
 
     this.anims.stop();
-    // this.setFrame(3);
+    this.setFrame(3);
     this.setVelocity(0, 0);
     this.setGravityY(BIRD_SPEED.DOWN * 3);
   }
@@ -113,6 +113,6 @@ export class Bird extends Phaser.Physics.Arcade.Sprite {
     this.isDead = true;
 
     this.anims.stop();
-    // this.setFrame(3);
+    this.setFrame(3);
   }
 }

@@ -1,4 +1,4 @@
-import { assetList } from './assetList';
+import { assetList } from './assets';
 import { config } from './config';
 
 export const BIRD_SPEED = {
