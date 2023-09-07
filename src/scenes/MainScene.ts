@@ -1,11 +1,15 @@
 import Phaser from 'phaser';
 import { Background, Bird, EndingScreen, Hint, Pipe, Pipes, ScoreText } from 'objects';
-import { assetList, config, scenes } from 'shared/vars';
+import { assetList, audioList, config, scenes } from 'shared/vars';
+import { AudioController } from 'entities';
 
 export class MainScene extends Phaser.Scene {
   private isGameStarted: boolean;
   private isGameOver: boolean;
+  private isAudioInit = false;
   private score: number;
+
+  private audioController: AudioController;
 
   // Game objects
   private background: Background;
@@ -41,11 +45,20 @@ export class MainScene extends Phaser.Scene {
         }
       }
     );
+    [audioList.background, audioList.flap, ...audioList.score, ...audioList.defeat].forEach(({ key, path }) => {
+      this.load.audio(key, path);
+    });
   }
 
   public create(): void {
     this.physics.world.setFPS(60);
     this.init();
+
+    // Init controller once per session
+    if (!this.isAudioInit) {
+      this.isAudioInit = true;
+      this.audioController = new AudioController(this);
+    }
 
     // Game objects
     this.background = new Background(this, this.onScreenTap.bind(this));
@@ -86,6 +99,7 @@ export class MainScene extends Phaser.Scene {
     const birdX = this.bird.getLeftCenter().x || 0;
     if (pipeX < birdX) {
       this.scoreText.setText(String(++this.score));
+      this.audioController.playSound('score');
     }
   }
 
@@ -97,6 +111,7 @@ export class MainScene extends Phaser.Scene {
       this.startGame();
     } else if (this.isGameStarted && !this.isGameOver) { // Case where the game continues
       this.bird.flap();
+      this.audioController.playSound('flap');
     }
   }
 
@@ -107,6 +122,7 @@ export class MainScene extends Phaser.Scene {
     this.scoreText.setVisible(true);
     this.hint.hide();
     this.bird.startFlying();
+    this.audioController.playSound('flap');
     this.pipes.startSpawn();
   }
 
@@ -120,6 +136,7 @@ export class MainScene extends Phaser.Scene {
     this.pipes.stopSpawn();
     this.background.stopMoving();
     this.cameras.main.flash();
+    this.audioController.playSound('defeat');
   }
 
   private birdCollidePipe() {
