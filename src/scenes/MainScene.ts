@@ -1,9 +1,10 @@
 import Phaser from 'phaser';
 import { Background, Bird, EndingScreen, Hint, Pipe, Pipes, ScoreText } from 'objects';
-import { assetList, audioList, config, scenes } from 'shared/vars';
+import { assetList, audioList, config, events, scenes } from 'shared/vars';
 import { AudioController } from 'entities';
 
 export class MainScene extends Phaser.Scene {
+  private isAssetsLoaded: boolean;
   private isGameStarted: boolean;
   private isGameOver: boolean;
   private isAudioInit = false;
@@ -88,6 +89,11 @@ export class MainScene extends Phaser.Scene {
 
     this.endingScreen = new EndingScreen(this, () => this.scene.restart());
     this.endingScreen.hide();
+
+    if (!this.isAssetsLoaded) {
+      this.game.events.emit(events.gameReady);
+      this.isAssetsLoaded = true;
+    }
   }
 
   public update() {
